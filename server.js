@@ -1,15 +1,14 @@
-var http = require("http"); 
-var fs = require("fs");
+var express = require("express");
+var app = express();
+
+var path = require('path');
 
 var port = 9000;
 
-var server = http.createServer(function(request, response) {
-     fs.readFile("trains.json", function(err, contents) { 
-        response.write("Hello World!"); 
-        response.end(); 
-    }); 
+app.get('/', function(request, response){
+    response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
 
-server.listen(port, function() {
+app.listen(port, function() {
     console.log("Listening on " + port); 
 });
