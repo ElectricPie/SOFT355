@@ -9,6 +9,11 @@ app.get('/', function(request, response){
     response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
 
+app.get('/joinPage', function(request, response){
+    //console.log("response");
+    response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
+});
+
 app.listen(port, function() {
     console.log("Listening on " + port); 
 });

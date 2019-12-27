@@ -2,9 +2,27 @@
 <html>
     <head>
         <title>Pandemic Online</title>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <script>
+            console.log("Started");
+            $(document).ready(function() {
+                $("#joinBtn").click(function() {
+                    console.log("button was clicked");
+
+                    $.get("/joinPage", function(data, status) {
+                            console.log("Recived: " + status);
+                            $("html").html(data);
+                    });  
+                    
+                });
+            });
+        </script>
     </head>
     <body>
-        <button type="button">Join Game</button>
+        <h1>Pandemic Online</h1>
+        <button type="button" id="joinBtn">Join Game</button>
         <button type="button">Host Game</button>
         <button type="button">About</button>
     </body>
