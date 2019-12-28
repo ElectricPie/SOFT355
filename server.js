@@ -5,13 +5,16 @@ var path = require('path');
 
 var port = 9000;
 
-app.get('/', function(request, response){
+app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
 
-app.get('/joinPage', function(request, response){
-    //console.log("response");
+app.get('/joinPage', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
+});
+
+app.get('/lobby', function(request, response) {
+    response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'))
 });
 
 app.listen(port, function() {
