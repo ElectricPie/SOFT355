@@ -8,9 +8,9 @@ var port = 9000;
 
 var Lobby = require('./Lobby');
 
-
 var lobbies = [];
 
+//Page requests
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
@@ -22,6 +22,7 @@ app.get('/joinPage', function(request, response) {
 app.get('/lobby', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'))
 });
+
 
 app.listen(port, function() {
     console.log("Listening on " + port); 
