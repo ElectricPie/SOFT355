@@ -29,7 +29,7 @@ app.get('/joinPage', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
 });
 
-app.get('/lobby', function(request, response) {
+app.get('/hostLobby', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'))
 });
 

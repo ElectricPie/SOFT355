@@ -13,16 +13,14 @@
                     console.log("button was clicked");
         
                     $.get("/joinPage", function(data, status) {
-                            console.log("Recived: " + status);
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
                     });  
                 });
         
                 $("#hostLobbyBtn").click(function() {
-                    $.get("/lobby", function(data, status) {
-                            console.log("Recived: " + status);
-                            $("html").html(data);
+                    $.get("/hostLobby", function(data, status) {
+                            $("body").html(data);
                             $("#MenuBtnControl").remove();
                     });  
                 });
