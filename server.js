@@ -9,14 +9,14 @@ var path = require('path');
 //Custom packages
 var Lobby = require('./Lobby');
 
-
 var port = 9000;
 var lobbies = [];
+var players = [];
 
 //Temp lobbies
-lobbies.push(new Lobby("Test Lobby 1"));
-lobbies.push(new Lobby("Test Lobby 2"));
-lobbies.push(new Lobby("Test Lobby 3"));
+lobbies.push(new Lobby.Lobby("Test Lobby 1"));
+lobbies.push(new Lobby.Lobby("Test Lobby 2"));
+lobbies.push(new Lobby.Lobby("Test Lobby 3"));
 
 
 //Page requests
@@ -40,8 +40,19 @@ const lobbyListSocket = io.of('/lobbies');
 lobbyListSocket.on('connection', function(socket){
   console.log('user connected to lobbies');
 
-  socket.on('disconnect', function(){ 
-    console.log('user disconnected from lobbies');
+  socket.on('disconnect', function(){    
+    //Looks through the list of players and removes the socket that has disconected
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].getSocket() == socket) {
+        players.socket.splice(i, 1);
+      }
+    }
+  });
+
+  socket.on('register user', function (msg) { 
+    var newPlayer = new Lobby.Player(msg.name, socket);
+
+    players.push(newPlayer);   
   });
 });
 

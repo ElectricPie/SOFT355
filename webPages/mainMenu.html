@@ -26,6 +26,14 @@
                 });
             });
         </script>
+
+        <script>
+            //joins the lobby socket
+            const lobbiesSocket = io("/lobbies")
+
+            //Registers the user with the server
+            lobbiesSocket.emit('register user', {name: "Test"});
+        </script>
     </head>
     <body>
         <h1>Pandemic Online</h1>
