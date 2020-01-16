@@ -44,7 +44,7 @@ lobbyListSocket.on('connection', function(socket){
     //Looks through the list of players and removes the socket that has disconected
     for (let i = 0; i < players.length; i++) {
       if (players[i].getSocket() == socket) {
-        players.socket.splice(i, 1);
+        players.splice(i, 1);
       }
     }
   });
