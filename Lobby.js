@@ -21,6 +21,10 @@ class Lobby {
         return this.lobbyCode;
     }
 
+    generateNewLobbyCode() {
+        this.lobbyCode = this.generateLobbyCode();
+    }
+
     generateLobbyCode() {
         var genCode = "";
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -89,5 +89,10 @@ suite("Lobby test suite", function() {
     assert.equal(lobbyCode[0], hostName[3].toUpperCase(), "Codes 1st letter should match hosts name 4th letter");
     assert.equal(lobbyCode[3], hostName[1].toUpperCase(), "Codes 4th letter should match hosts name 2nd letter");
     assert.equal(lobbyCode[4], hostName[0].toUpperCase(), "Codes 5th letter should match hosts name 1st letter");
+
+    codeLobby.generateNewLobbyCode();
+    var regenLobbyCode = codeLobby.getLobbyCode();
+
+    assert.notEqual(lobbyCode, regenLobbyCode, "Regenerated codes should not match");
   });
 });
