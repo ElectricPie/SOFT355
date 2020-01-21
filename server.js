@@ -73,6 +73,8 @@ lobbyListSocket.on('connection', function(socket){
       lobbies.push(newLobby);
 
       socket.join('lobby' + newLobby.getLobbyCode());
+
+      socket.emit('lobbies', { type: "code", lobbyCode: newLobby.getLobbyCode()});
     }
   });
 });

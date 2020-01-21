@@ -1,14 +1,21 @@
 <body>
-    <h1>Lobby: [lobby code]</h1>
+    <div style="clear: both" style="text-align: center">
+        <h1 style="float: left">Lobby:</h1>
+        <h1 style="float: left" id="lobbyCode">[lobby code]</h1>
+    </div>
+    
+    
     <button type="button">Start Game</button>
     <h2>Player List</h2>   
     
     <script>
-        //Get lobby code from server
-        
-        //Replace lobby code with generated code
-
-        //Join the game specific lobby socket room using generated code
-        
+        //Recive data from socket
+        socket.on('lobbies', function (data) {
+            //Get lobby code from server
+            if (data.type == "code") {
+                //Replace lobby code with generated code
+                $("#lobbyCode").html(data.lobbyCode);
+            }
+        });
     </script>
 </body>
