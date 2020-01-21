@@ -11,10 +11,13 @@
             var lobbies = JSON.parse(data.lobbies); 
 
             for (let i = 0; i < data.lobbyCount; i++) {
-                console.log("Lobby: " + lobbies[i]);
-                console.log("Players: " + data.playerCount[i] + 1);
-                $("#lobbyList").append("<li>" + lobbies[i] + " | " + (data.playerCount[i] + 1) + "/5 <button type=\"button\" id=\"joinBtn\">Join</button></li>")
+                //Create a new list items with the lobby code, number of players and a button to join.
+                $("#lobbyList").append("<li>" + lobbies[i] + " | " + (data.playerCount[i] + 1) + "/5 <button type=\"button\" id=\"" + lobbies[i] + "\">Join</button></li>")
             }
+
+            $("button").on( "click", function() {
+                    alert( this.id ); 
+            });
         });
     </script>
 </body>
