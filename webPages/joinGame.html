@@ -2,11 +2,19 @@
     <h1>Join Page</h1>
 
     <h2>Avalible Lobbies</h2>
-    <li>
+    <ui id="lobbyList">
             
-    </li>
+    </ui>
       
     <script>
-        const lobbiesSocket = io("/lobbies")
+        socket.on('lobby search', function (data) {
+            var lobbies = JSON.parse(data.lobbies); 
+
+            for (let i = 0; i < data.lobbyCount; i++) {
+                console.log("Lobby: " + lobbies[i]);
+                console.log("Players: " + data.playerCount[i] + 1);
+                $("#lobbyList").append("<li>" + lobbies[i] + " | " + (data.playerCount[i] + 1) + "/5 <button type=\"button\" id=\"joinBtn\">Join</button></li>")
+            }
+        });
     </script>
 </body>
