@@ -30,7 +30,7 @@ app.get('/joinPage', function(request, response) {
 });
 
 app.get('/hostLobby', function(request, response) {
-  response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
+  response.sendFile(path.join(__dirname + '/webPages/gameLobbyHost.html'));
 });
 
 app.get('/joinGame', function(request, response) {
@@ -52,6 +52,16 @@ lobbyListSocket.on('connection', function(socket){
             updateLobbySearch(players[i].getSocket(), true);
           }
         }
+
+        var connectedLobby = players[i].getConnectedLobby();
+
+        if (connectedLobby != null) {
+          var connectedCode = players[i].getConnectedLobby().getLobbyCode();
+          players[i].disconnectFromLobby();
+          updateLobby(socket, connectedCode, true);
+        }        
+
+        //Removes the player from the player list
         players.splice(i, 1);
       }
     }
