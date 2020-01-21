@@ -11,6 +11,7 @@
     <script>
         //Recive data from socket
         socket.on('lobbies', function (data) {
+            console.log("Updated");
             //Get lobby code from server
             if (data.type == "code") {
                 //Replace lobby code with generated code

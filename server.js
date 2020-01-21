@@ -18,19 +18,25 @@ var players = [];
 const lobbyListSocket = io.of('/lobbies');
 
 
+
 //Page requests
 app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
+  response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
 
 
 app.get('/joinPage', function(request, response) {
-    response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
+  response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
 });
 
 app.get('/hostLobby', function(request, response) {
-    response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
+  response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
 });
+
+app.get('/joinGame', function(request, response) {
+  response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
+});
+
 
 //Socket
 lobbyListSocket.on('connection', function(socket){
@@ -88,8 +94,36 @@ lobbyListSocket.on('connection', function(socket){
       
       updateLobbySearch(socket, true);
     }
+    else if (msg.room == "existingLobby") {
+      //Leaves the search room
+      socket.leave("lobbySearch");
+
+      //Joins the socket to the lobby specific room
+      socket.join("lobby" + msg.lobbyCode);
+
+      joinLobby(socket, msg.lobbyCode);
+
+      socket.emit('lobbies', { type: "code", lobbyCode: msg.lobbyCode});
+
+      console.log("Code: " + msg.lobbyCode);
+    }
   });
 });
+
+function joinLobby(socket, lobbyCode) {
+  //Finds the lobby with the same code
+  for (let i = 0; i < lobbies.length; i++) {
+    if (lobbyCode == lobbies[i].getLobbyCode()) {
+      //Finds the player matching the socket
+      for (let j = 0; j < players.length; j++) {
+        if (socket == players[j].getSocket()) {
+          //Joins the player to the socket
+          lobbies[i].addPlayer(players[j]);
+        }
+      }
+    }
+  }
+}
 
 function checkForDuplicateCode(lobby) {
   for (let i = 0; i < lobbies.length; i++) {
@@ -112,7 +146,7 @@ function updateLobbySearch(socket, all) {
   }      
 
   var lobbyCount = lobbyCodes.length;
-  console.log("Update");
+
   if (all == true) {
     socket.broadcast.emit('lobby search', { lobbyCount: lobbyCount, lobbies: JSON.stringify(lobbyCodes), playerCount: lobbyPlayers});
   }

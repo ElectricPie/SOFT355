@@ -18,7 +18,11 @@
             }
 
             $("button").on( "click", function() {
-                    alert( this.id ); 
+                //Request to join the given lobbys room
+                socket.emit('join room', { room: "existingLobby", lobbyCode: this.id });
+                $.get("/joinGame", function(data, status) {
+                    $("body").html(data);
+                });
             });
         });
     </script>
