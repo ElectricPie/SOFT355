@@ -20,6 +20,7 @@
             $("button").on( "click", function() {
                 //Request to join the given lobbys room
                 socket.emit('join room', { room: "existingLobby", lobbyCode: this.id });
+                localStorage.setItem('lobbyCode', this.id);
                 $.get("/joinGame", function(data, status) {
                     $("body").html(data);
                 });
