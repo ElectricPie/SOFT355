@@ -14,6 +14,9 @@ var port = 9000;
 var lobbies = [];
 var players = [];
 
+//Lobby socket
+const lobbyListSocket = io.of('/lobbies');
+
 //Temp lobbies
 lobbies.push(new Lobby.Lobby("Test Lobby 1"));
 lobbies.push(new Lobby.Lobby("Test Lobby 2"));
@@ -34,10 +37,6 @@ app.get('/hostLobby', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'))
 });
 
-
-//Lobby socket
-const lobbyListSocket = io.of('/lobbies');
-
 lobbyListSocket.on('connection', function(socket){
   console.log('user connected to lobbies');
 
@@ -51,11 +50,15 @@ lobbyListSocket.on('connection', function(socket){
   });
 
   socket.on('register user', function (msg) { 
-    console.log("New User: " + msg.name);
-
     var newPlayer = new Lobby.Player(msg.name, socket);
 
     players.push(newPlayer);   
+  });
+
+  socket.on('join room', function (msg) { 
+    if (msg.room == "lobbySearch") {
+      socket.join('lobbySearch');
+    }
   });
 });
 

@@ -6,6 +6,11 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
 
+        <script>
+            //Joins the lobby socket
+            const socket = io("/lobbies");
+        </script>
+
         <script id="MenuBtnControl">
             console.log("Started");
             $(document).ready(function() {
@@ -13,7 +18,9 @@
                     if ($("#username").val().length >= 4) {
                         $.get("/joinPage", function(data, status) {
                             //Registers the user with the server
-                            lobbiesSocket.emit('register user', {name: $("#username").val()});
+                            socket.emit('register user', {name: $("#username").val()});
+                            //Request to join lobby search room
+                            socket.emit('join room', {room: "lobbySearch"});
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
                         });
@@ -27,7 +34,7 @@
                     if ($("#username").val().length >= 4) {
                         $.get("/hostLobby", function(data, status) {
                             //Registers the user with the server
-                            lobbiesSocket.emit('register user', {name: $("#username").val()});
+                            socket.emit('register user', {name: $("#username").val()});
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
                         });  
@@ -37,12 +44,7 @@
                     }
                 });
             });
-        </script>
-
-        <script>
-            //Joins the lobby socket
-            const lobbiesSocket = io("/lobbies")
-        </script>
+        </script>   
     </head>
     <body>
         <h1>Pandemic Online</h1>
