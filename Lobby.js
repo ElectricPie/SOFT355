@@ -5,6 +5,10 @@ class Lobby {
         this.lobbyCode = "";
     }
 
+    addPlayer(player) {
+        this.players.push(player);
+    }
+
     getHost() {
         return this.host;
     }
