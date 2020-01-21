@@ -1,3 +1,18 @@
 <body>
     <h1>Game Page</h1>
+
+    <script src=""></script>
+
+    <script>
+        
+
+
+        $.get("/getCities", function (data, status) {
+            console.log(Object.keys(data).length);
+            for (n in data) {
+                console.log(n);
+            }
+            
+        }); 
+    </script>
 </body>

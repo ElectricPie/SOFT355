@@ -1,0 +1,17 @@
+{
+  "Atlanta": {
+    "connections": [1, 2]
+  },
+  
+  "Chicago": {
+    "connections": [0, 3]
+  },
+  
+  "Washington": {
+    "connections": [0, 3]
+  },
+  
+  "Montreal": {
+    "connections": [1, 2]
+  }
+}

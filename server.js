@@ -41,6 +41,10 @@ app.get('/startGame', function(request, response) {
   response.sendFile(path.join(__dirname + '/webPages/gamePage.html'));
 });
 
+app.get('/getCities', function(request, response) {
+  response.sendFile(path.join(__dirname + '/json/cities.json'));
+});
+
 
 
 //Socket
