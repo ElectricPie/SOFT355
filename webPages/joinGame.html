@@ -8,6 +8,8 @@
       
     <script>
         socket.on('lobby search', function (data) {
+            $("#lobbyList").empty();
+
             var lobbies = JSON.parse(data.lobbies); 
 
             for (let i = 0; i < data.lobbyCount; i++) {

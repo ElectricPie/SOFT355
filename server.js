@@ -42,7 +42,8 @@ lobbyListSocket.on('connection', function(socket){
         for (let j = 0; j < lobbies.length; j++) {
           if (players[i] == lobbies[j].getHost()) {
             lobbies.splice(j, 1);
-            console.log(lobbies.length);
+            //Updates clients of the removed lobby
+            updateLobbySearch(players[i].getSocket(), true);
           }
         }
         players.splice(i, 1);
@@ -60,17 +61,7 @@ lobbyListSocket.on('connection', function(socket){
     if (msg.room == "lobbySearch") {
       socket.join('lobbySearch');
 
-      var lobbyCodes = [];
-      var lobbyPlayers = [];
-
-      for (let i = 0; i < lobbies.length; i++) {
-        lobbyCodes.push(lobbies[i].getLobbyCode());
-        lobbyPlayers.push(lobbies[i].getPlayers().length);
-      }      
-
-      var lobbyCount = lobbyCodes.length;
-
-      socket.emit('lobby search', { lobbyCount: lobbyCount, lobbies: JSON.stringify(lobbyCodes), playerCount: lobbyPlayers});
+      updateLobbySearch(socket, false);
     }
     else if (msg.room == "newLobby") {
       var host = null;
@@ -94,6 +85,8 @@ lobbyListSocket.on('connection', function(socket){
       socket.join('lobby' + newLobby.getLobbyCode());
 
       socket.emit('lobbies', { type: "code", lobbyCode: newLobby.getLobbyCode()});
+      
+      updateLobbySearch(socket, true);
     }
   });
 });
@@ -107,6 +100,25 @@ function checkForDuplicateCode(lobby) {
   }
 
   return false;
+}
+
+function updateLobbySearch(socket, all) {
+  var lobbyCodes = [];
+  var lobbyPlayers = [];
+
+  for (let i = 0; i < lobbies.length; i++) {
+    lobbyCodes.push(lobbies[i].getLobbyCode());
+    lobbyPlayers.push(lobbies[i].getPlayers().length);
+  }      
+
+  var lobbyCount = lobbyCodes.length;
+  console.log("Update");
+  if (all == true) {
+    socket.broadcast.emit('lobby search', { lobbyCount: lobbyCount, lobbies: JSON.stringify(lobbyCodes), playerCount: lobbyPlayers});
+  }
+  else {
+    socket.emit('lobby search', { lobbyCount: lobbyCount, lobbies: JSON.stringify(lobbyCodes), playerCount: lobbyPlayers});
+  }
 }
 
 http.listen(port, function() {
