@@ -90,6 +90,7 @@ lobbyListSocket.on('connection', function(socket){
 
       socket.join('lobby' + newLobby.getLobbyCode());
 
+      //Sends the lobby code to the host
       socket.emit('lobbies', { type: "code", lobbyCode: newLobby.getLobbyCode()});
       
       updateLobbySearch(socket, true);
@@ -103,12 +104,36 @@ lobbyListSocket.on('connection', function(socket){
 
       joinLobby(socket, msg.lobbyCode);
 
-      socket.emit('lobbies', { type: "code", lobbyCode: msg.lobbyCode});
-
-      console.log("Code: " + msg.lobbyCode);
+      updateLobby(socket, msg.lobbyCode, true);
     }
   });
+
+  //Updates the clients on the given lobby
+  socket.on('request update', function(msg) {
+    updateLobby(socket, msg.lobbyCode, false);
+  });
 });
+
+function updateLobby(socket, lobbyCode, sendToAll) {
+  for (let i = 0; i < lobbies.length; i++) {
+    if (lobbyCode == lobbies[i].getLobbyCode()) {
+      var playerList = [];
+
+      playerList.push(lobbies[i].getHost().getName());
+
+      for (let j = 0; j < lobbies[i].getPlayers().length; j++) {
+        playerList.push(lobbies[i].getPlayers()[j].getName());
+        
+      }
+      if (sendToAll) {
+        socket.to('lobby' + lobbyCode).emit('players', { players: JSON.stringify(playerList) });
+      }
+      else {
+        socket.emit('players', { players: JSON.stringify(playerList) });
+      }
+    }
+  }
+}
 
 function joinLobby(socket, lobbyCode) {
   //Finds the lobby with the same code
@@ -127,7 +152,6 @@ function joinLobby(socket, lobbyCode) {
 
 function checkForDuplicateCode(lobby) {
   for (let i = 0; i < lobbies.length; i++) {
-    console.log(lobby.getLobbyCode() + " vs " + lobbies[i].getLobbyCode());
     if (lobby.getLobbyCode() == lobbies[i].getLobbyCode()) {
       return true;
     }

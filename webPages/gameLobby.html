@@ -7,12 +7,29 @@
     
     <button type="button">Start Game</button>
     <h2>Player List</h2>   
+    <ul id="playerList">
+
+    </ul>
     
     <script>
-        if(localStorage.getItem('lobbyCode') != null) {
-            $("#lobbyCode").html(localStorage.getItem('lobbyCode'));
+        var lobbyCode = localStorage.getItem('lobbyCode') ;
+
+        if(lobbyCode != null) {
+            $("#lobbyCode").html(lobbyCode);
+            //Gets the server to send player list
+            socket.emit('request update', { lobbyCode: lobbyCode });
         }
         
+        socket.on('players', function(data) {
+            $("#playerList").empty();
+
+            var playerList = JSON.parse(data.players);
+
+            for (let i = 0; i < playerList.length; i++) {
+                $("#playerList").append("<li>" + playerList[i] + "</li>")
+                console.log(i + ": " + playerList[i]);
+            }
+        });
 
         //Recive data from socket
         socket.on('lobbies', function (data) {
