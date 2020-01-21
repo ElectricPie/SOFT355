@@ -5,22 +5,15 @@
     </div>
     
     
-    <button type="button">Start Game</button>
+    <button type="button" id="startGame">Start Game</button>
     <h2>Player List</h2>   
     <ul id="playerList">
 
     </ul>
     
-    <script>
-        var lobbyCode = localStorage.getItem('lobbyCode') ;
-
-        if(lobbyCode != null) {
-            $("#lobbyCode").html(lobbyCode);
-            //Gets the server to send player list
-            socket.emit('request update', { lobbyCode: lobbyCode });
-        }
-        
+    <script>     
         socket.on('players', function(data) {
+            console.log("Fack");
             $("#playerList").empty();
 
             var playerList = JSON.parse(data.players);
@@ -35,9 +28,29 @@
         socket.on('lobbies', function (data) {
             //Get lobby code from server
             if (data.type == "code") {
+                lobbyCode = data.lobbyCode
                 //Replace lobby code with generated code
-                $("#lobbyCode").html(data.lobbyCode);
+                $("#lobbyCode").html(lobbyCode);
             }
         });
+
+        socket.on('startGame', function (data) {
+            alert('received from server');
+            console.log('received from server');
+        });
+
+        $("#startGame").on("click", function() {
+            socket.emit('start', { lobbyCode: lobbyCode });
+        });
+
+        socket.on('connect_error', function(err) {
+            console.log("client connect_error: ", err);
+        });
+
+        socket.on('connect_timeout', function(err) {
+            console.log("client connect_timeout: ", err);
+        });
+
+        
     </script>
 </body>

@@ -17,7 +17,7 @@
                 $("#lobbyList").append("<li>" + lobbies[i] + " | " + (data.playerCount[i] + 1) + "/5 <button type=\"button\" id=\"" + lobbies[i] + "\">Join</button></li>")
             }
 
-            $("button").on( "click", function() {
+            $("button").on("click", function() {
                 //Request to join the given lobbys room
                 socket.emit('join room', { room: "existingLobby", lobbyCode: this.id });
                 localStorage.setItem('lobbyCode', this.id);

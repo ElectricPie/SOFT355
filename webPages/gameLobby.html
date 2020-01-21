@@ -31,12 +31,18 @@
         });
 
         //Recive data from socket
-        socket.on('lobbies', function (data) {
+       socket.on('lobbies', function (data) {
             //Get lobby code from server
             if (data.type == "code") {
+                lobbyCode = data.lobbyCode
                 //Replace lobby code with generated code
-                $("#lobbyCode").html(data.lobbyCode);
+                $("#lobbyCode").html(lobbyCode);
             }
+        });
+
+        socket.on('startGame', function (data) {
+            alert('received from server');
+            console.log('received from server');
         });
     </script>
 </body>

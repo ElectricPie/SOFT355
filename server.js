@@ -122,8 +122,21 @@ lobbyListSocket.on('connection', function(socket){
   socket.on('request update', function(msg) {
     updateLobby(socket, msg.lobbyCode, false);
   });
+
+  socket.on('start', function(msg) {
+    for (let i = 0; i < lobbies.length; i++) {
+      if (msg.lobbyCode == lobbies[i].getLobbyCode()) {
+        console.log("Mathc");
+      }
+    }
+
+    lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', { lobbyCode: "Test" });
+
+  });
 });
 
+
+//Functions
 function updateLobby(socket, lobbyCode, sendToAll) {
   for (let i = 0; i < lobbies.length; i++) {
     if (lobbyCode == lobbies[i].getLobbyCode()) {
@@ -136,7 +149,7 @@ function updateLobby(socket, lobbyCode, sendToAll) {
         
       }
       if (sendToAll) {
-        socket.to('lobby' + lobbyCode).emit('players', { players: JSON.stringify(playerList) });
+        socket.to('lobby' + lobbyCode).broadcast.emit('players', { players: JSON.stringify(playerList) });
       }
       else {
         socket.emit('players', { players: JSON.stringify(playerList) });
