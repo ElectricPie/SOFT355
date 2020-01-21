@@ -1,4 +1,4 @@
-/*
+
 //Node packages
 var app = require("express")();
 
@@ -61,4 +61,3 @@ lobbyListSocket.on('connection', function(socket){
 http.listen(port, function() {
     console.log("Listening on: " + port);
 });
-*/
