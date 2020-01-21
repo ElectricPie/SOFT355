@@ -2,7 +2,7 @@ class Lobby {
     constructor(host) {
         this.host = host;
         this.players = [];
-        this.lobbyCode = "";
+        this.lobbyCode = this.generateLobbyCode();
     }
 
     addPlayer(player) {
@@ -17,8 +17,28 @@ class Lobby {
         return this.players;
     }
 
-    lobbyCode() {
-        return lobbyCode;
+    getLobbyCode() {
+        return this.lobbyCode;
+    }
+
+    generateLobbyCode() {
+        var genCode = "";
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        genCode += this.host.getName()[3].toUpperCase();
+
+        for (let i = 0; i < 2; i++) {
+            genCode += characters[Math.round(Math.random() * 10)]
+        }
+
+        genCode += this.host.getName()[1].toUpperCase();
+        genCode += this.host.getName()[0].toUpperCase();
+
+        for (let i = 0; i < 2; i++) {
+            genCode += characters[Math.round(Math.random() * 10)]
+        }
+        
+        return genCode;
     }
 }
 

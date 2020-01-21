@@ -69,4 +69,25 @@ suite("Lobby test suite", function() {
 
     assert.isOk(playerInList, 'Player not found in list');
   });
+
+  test("Lobby code generation", function() {
+    //Creates a socket for the player
+    var lobbyHostSocket = io.connect('http://localhost:9000', {
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
+    });
+
+    var hostName = "Paul";
+
+    //Creates the host player
+    var lobbyHost = new lobbyFunc.Player(hostName, lobbyHostSocket);
+
+    var codeLobby = new lobbyFunc.Lobby(lobbyHost);
+
+    var lobbyCode = codeLobby.getLobbyCode();
+
+    assert.equal(lobbyCode.length, 7, "Codes 1st letter should match hosts name 4th letter");
+    assert.equal(lobbyCode[0], hostName[3].toUpperCase(), "Codes 1st letter should match hosts name 4th letter");
+    assert.equal(lobbyCode[3], hostName[1].toUpperCase(), "Codes 4th letter should match hosts name 2nd letter");
+    assert.equal(lobbyCode[4], hostName[0].toUpperCase(), "Codes 5th letter should match hosts name 1st letter");
+  });
 });

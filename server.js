@@ -34,7 +34,7 @@ app.get('/joinPage', function(request, response) {
 });
 
 app.get('/hostLobby', function(request, response) {
-    response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'))
+    response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
 });
 
 lobbyListSocket.on('connection', function(socket){
