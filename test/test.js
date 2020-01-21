@@ -4,12 +4,21 @@ var io = require('socket.io-client');
 var lobbyFunc = require("../Lobby");
 
 suite("Lobby test suite", function() {
+  suiteSetup(function() {
+    sharedHostSocket = io.connect('http://localhost:9000', {
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
+    });
+
+    //Creates the player
+    sharedHost = new lobbyFunc.Player("John", sharedHostSocket);
+
+    sharedLobby = new lobbyFunc.Lobby(sharedHost);
+  });
+
   test("Test Player Creatation", function() {
     //Creates a socket for the player
     var socket = io.connect('http://localhost:9000', {
-      'reconnection delay' : 0,
-      'reopen delay' : 0,
-      'force new connection' : true
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
     });
 
     //Creates the player
@@ -94,5 +103,24 @@ suite("Lobby test suite", function() {
     var regenLobbyCode = codeLobby.getLobbyCode();
 
     assert.notEqual(lobbyCode, regenLobbyCode, "Regenerated codes should not match");
+  });
+
+  test("Player leaving lobby", function() { 
+    var sharedLobbyCount = sharedLobby.getPlayers().length;
+
+    //Creates the leaver player
+    var leaverPlayerSocket = io.connect('http://localhost:9000', {
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
+    });
+    var leaverPlayer = new lobbyFunc.Player("Eric", leaverPlayerSocket);
+
+    //Connect the player to the lobby
+    sharedLobby.addPlayer(leaverPlayer);
+
+    leaverPlayer.disconnectFromLobby();
+
+    assert.equal(sharedLobby.getPlayers().length, sharedLobbyCount, "Number of players should match the number of players before adding and leaving the new player");
+
+    assert.equal(leaverPlayer.getConnectedLobby(), null, "Players lobby should be null");
   });
 });

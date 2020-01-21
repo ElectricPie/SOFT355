@@ -6,7 +6,16 @@ class Lobby {
     }
 
     addPlayer(player) {
+        player.connectToLobby(this);
         this.players.push(player);
+    }
+
+    removePlayer(player) {
+        for (let i = 0; i < this.players.length; i++) {
+            if (player == this.players[i]) {
+                this.players.splice(i, 1);
+            }
+        }
     }
 
     getHost() {
@@ -58,6 +67,21 @@ class Player {
 
     getSocket() {
         return this.socket;
+    }
+
+    connectToLobby(lobby) {
+        this.lobby = lobby;
+    }
+
+    getConnectedLobby() {
+        return this.lobby;
+    }
+
+    disconnectFromLobby() {
+        if (this.lobby != null) {
+            this.lobby.removePlayer(this);
+            this.lobby = null;
+        }
     }
 }
 
