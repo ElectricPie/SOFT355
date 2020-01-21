@@ -38,9 +38,19 @@ lobbyListSocket.on('connection', function(socket){
     //Looks through the list of players and removes the socket that has disconected
     for (let i = 0; i < players.length; i++) {
       if (players[i].getSocket() == socket) {
+        console.log("Number of lobbies: " + lobbies.length);
+        //Checks if the player is host a lobby and if they are, removes the lobby
+        for (let j = 0; j < lobbies.length; j++) {
+          if (players[i] == lobbies[j].getHost()) {
+            lobbies.splice(j, 1);
+            console.log(lobbies.length);
+          }
+        }
         players.splice(i, 1);
       }
     }
+
+    
   });
 
   socket.on('register user', function (msg) { 
@@ -70,6 +80,7 @@ lobbyListSocket.on('connection', function(socket){
       while (checkForDuplicateCode(newLobby)) {
         newLobby.generateNewLobbyCode();
       }
+      console.log("New Lobby");
       lobbies.push(newLobby);
 
       socket.join('lobby' + newLobby.getLobbyCode());
