@@ -8,7 +8,7 @@ var io = require('socket.io')(http);
 var path = require('path');
 
 //Custom packages
-var Lobby = require('./Lobby');
+var lobbyFunc = require('./Lobby');
 
 var port = 9000;
 var lobbies = [];
@@ -16,11 +16,6 @@ var players = [];
 
 //Lobby socket
 const lobbyListSocket = io.of('/lobbies');
-
-//Temp lobbies
-lobbies.push(new Lobby.Lobby("Test Lobby 1"));
-lobbies.push(new Lobby.Lobby("Test Lobby 2"));
-lobbies.push(new Lobby.Lobby("Test Lobby 3"));
 
 
 //Page requests
@@ -37,9 +32,8 @@ app.get('/hostLobby', function(request, response) {
     response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
 });
 
+//Socket
 lobbyListSocket.on('connection', function(socket){
-  console.log('user connected to lobbies');
-
   socket.on('disconnect', function(){    
     //Looks through the list of players and removes the socket that has disconected
     for (let i = 0; i < players.length; i++) {
@@ -50,7 +44,7 @@ lobbyListSocket.on('connection', function(socket){
   });
 
   socket.on('register user', function (msg) { 
-    var newPlayer = new Lobby.Player(msg.name, socket);
+    var newPlayer = new lobbyFunc.Player(msg.name, socket);
 
     players.push(newPlayer);   
   });
@@ -59,9 +53,40 @@ lobbyListSocket.on('connection', function(socket){
     if (msg.room == "lobbySearch") {
       socket.join('lobbySearch');
     }
+    else if (msg.room == "newLobby") {
+      var host = null;
+      
+      //Gets the host player mathing the socket
+      for (let i = 0; i < players.length; i++) {
+        if (socket == players[i].getSocket()) {
+          host = players[i];
+        }
+      }
+
+      //Creates the new lobby
+      let newLobby = new lobbyFunc.Lobby(host);
+
+      //Loops until a generated code does not match
+      while (checkForDuplicateCode(newLobby)) {
+        newLobby.generateNewLobbyCode();
+      }
+      lobbies.push(newLobby);
+
+      socket.join('lobby' + newLobby.getLobbyCode());
+    }
   });
 });
 
+function checkForDuplicateCode(lobby) {
+  for (let i = 0; i < lobbies.length; i++) {
+    console.log(lobby.getLobbyCode() + " vs " + lobbies[i].getLobbyCode());
+    if (lobby.getLobbyCode() == lobbies[i].getLobbyCode()) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 http.listen(port, function() {
     console.log("Listening on: " + port);

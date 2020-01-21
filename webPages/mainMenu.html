@@ -35,6 +35,9 @@
                         $.get("/hostLobby", function(data, status) {
                             //Registers the user with the server
                             socket.emit('register user', {name: $("#username").val()});
+                            //Sends a new lobby request
+                            socket.emit('join room', {room: "newLobby"});
+
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
                         });  
