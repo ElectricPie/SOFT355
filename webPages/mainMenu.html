@@ -10,35 +10,45 @@
             console.log("Started");
             $(document).ready(function() {
                 $("#joinBtn").click(function() {
-                    console.log("button was clicked");
-        
-                    $.get("/joinPage", function(data, status) {
+                    if ($("#username").val().length >= 4) {
+                        $.get("/joinPage", function(data, status) {
+                            //Registers the user with the server
+                            lobbiesSocket.emit('register user', {name: $("#username").val()});
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
-                    });  
+                        });
+                    }
+                    else {
+                        alert("Username must contain atlest 4 characters")
+                    }
                 });
         
                 $("#hostLobbyBtn").click(function() {
-                    $.get("/hostLobby", function(data, status) {
+                    if ($("#username").val().length >= 4) {
+                        $.get("/hostLobby", function(data, status) {
+                            //Registers the user with the server
+                            lobbiesSocket.emit('register user', {name: $("#username").val()});
                             $("body").html(data);
                             $("#MenuBtnControl").remove();
-                    });  
+                        });  
+                    }
+                    else {
+                        alert("Username must contain atlest 4 characters")
+                    }
                 });
             });
         </script>
 
         <script>
-            //joins the lobby socket
+            //Joins the lobby socket
             const lobbiesSocket = io("/lobbies")
-
-            //Registers the user with the server
-            lobbiesSocket.emit('register user', {name: "Test"});
         </script>
     </head>
     <body>
         <h1>Pandemic Online</h1>
-        <button type="button" id="joinBtn">Join Game</button>
-        <button type="button" id="hostLobbyBtn">Host Game</button>
+        Username: <input type="text" id="username"><br>
+        <button type="button" id="joinBtn">Join Game</button><br>
+        <button type="button" id="hostLobbyBtn">Host Game</button><br>
         <button type="button">About</button>
     </body>
 

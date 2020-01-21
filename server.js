@@ -51,6 +51,8 @@ lobbyListSocket.on('connection', function(socket){
   });
 
   socket.on('register user', function (msg) { 
+    console.log("New User: " + msg.name);
+
     var newPlayer = new Lobby.Player(msg.name, socket);
 
     players.push(newPlayer);   
