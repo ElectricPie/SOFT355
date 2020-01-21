@@ -41,8 +41,9 @@
         });
 
         socket.on('startGame', function (data) {
-            alert('received from server');
-            console.log('received from server');
+            $.get("/startGame", function (data, status) {
+                $("body").html(data);
+            }); 
         });
     </script>
 </body>

@@ -37,6 +37,11 @@ app.get('/joinGame', function(request, response) {
   response.sendFile(path.join(__dirname + '/webPages/gameLobby.html'));
 });
 
+app.get('/startGame', function(request, response) {
+  response.sendFile(path.join(__dirname + '/webPages/gamePage.html'));
+});
+
+
 
 //Socket
 lobbyListSocket.on('connection', function(socket){
@@ -124,13 +129,8 @@ lobbyListSocket.on('connection', function(socket){
   });
 
   socket.on('start', function(msg) {
-    for (let i = 0; i < lobbies.length; i++) {
-      if (msg.lobbyCode == lobbies[i].getLobbyCode()) {
-        console.log("Mathc");
-      }
-    }
-
-    lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', { lobbyCode: "Test" });
+    //Sends a message that the game will start
+    lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', "starting game");
 
   });
 });

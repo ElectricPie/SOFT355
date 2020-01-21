@@ -35,22 +35,14 @@
         });
 
         socket.on('startGame', function (data) {
-            alert('received from server');
-            console.log('received from server');
+            $.get("/startGame", function (data, status) {
+                $("body").html(data);
+            }); 
         });
 
         $("#startGame").on("click", function() {
             socket.emit('start', { lobbyCode: lobbyCode });
         });
-
-        socket.on('connect_error', function(err) {
-            console.log("client connect_error: ", err);
-        });
-
-        socket.on('connect_timeout', function(err) {
-            console.log("client connect_timeout: ", err);
-        });
-
         
     </script>
 </body>
