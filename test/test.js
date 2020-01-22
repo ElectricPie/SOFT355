@@ -141,9 +141,13 @@ suite("Game test suite", function () {
   });
 
   test("Create disease", function() {
-    var testDisease = new gameFunc.Disease("black");
+    var testDiseaseName = "black";
+
+    var testDisease = new gameFunc.Disease(testDiseaseName);
 
     assert.notEqual(testDisease, null, "Disease should should be null");
+
+    assert.equal(testDisease.getName(), testDiseaseName, "Disease name should match " + testDiseaseName);
   }); 
 
   test("Create player pawn", function() {
