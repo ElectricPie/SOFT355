@@ -234,8 +234,6 @@ suite("Game test suite", function () {
     assert.notEqual(testPlayerPawn, null, "Player pawn should not be null");
     assert.equal(testPlayerPawn.getPlayer(), testPlayers[0], "Pawns player should match");
 
-    
-
     assert.equal(testPlayerPawn.getCurrentCity(), pawnStartCity, "Pawns city should match");
   });
 

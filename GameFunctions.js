@@ -4,6 +4,12 @@ class GameWorld {
         this.game
         this.createCities(citiesJsonFile, diseases);
         this.players = players;
+        this.playerPawns = [];
+
+        for (let i = 0; i < players.length; i++) {
+            this.playerPawns.push(new PlayerPawn(players[i], this.cities[0]));
+            console.log(i + ": " + this.playerPawns[i].getCurrentCity().getName());
+        }
     }
 
     createCities(jsonFile, diseases) {
