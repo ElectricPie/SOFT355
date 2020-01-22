@@ -129,16 +129,25 @@ suite("Lobby test suite", function() {
 });
 
 suite("Game test suite", function () {
-  var testPlayer;
+  var testPlayers = [];
   var testDiseases;
   
   suiteSetup(function() {
-    gamePlayerSocket = io.connect('http://localhost:9000', {
+    var gamePlayerSocket = io.connect('http://localhost:9000', {
       'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
     });
 
     //Creates the player
-    gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
+    var gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
+    testPlayers.push(gamePlayer);
+
+    var gamePlayerSocketTwo = io.connect('http://localhost:9000', {
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
+    });
+
+    //Creates a second player
+    var gamePlayerTwo = new lobbyFunc.Player("Jayne", gamePlayerSocketTwo);
+    testPlayers.push(gamePlayerTwo);
 
     testDiseases = [new gameFunc.Disease("black"), new gameFunc.Disease("yellow"), new gameFunc.Disease("red"), new gameFunc.Disease("blue")];
   });
@@ -222,11 +231,13 @@ suite("Game test suite", function () {
 
 
   test("Creating gameworld", function() { 
-    var testGameWorld = new gameFunc.GameWorld("TESTCODE", citiesJson, testDiseases);
+    var testGameWorld = new gameFunc.GameWorld("TESTCODE", citiesJson, testDiseases, testPlayers);
 
     assert.notEqual(testGameWorld, null, "GameWorld should not be null");
     assert.equal(testGameWorld.getGameCode(), "TESTCODE", "Game code should match");
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
+
+    assert.equal(testGameWorld.getPlayers(), testPlayers, "Player lengths should match");
 
     //Check that all cities in the game would have the correct diseases
     var gameWorldDiseasePass = true;

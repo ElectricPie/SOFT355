@@ -1,18 +1,12 @@
 <body>
     <h1>Game Page</h1>
 
-    <script src=""></script>
+    <button type="button" style="background-color: blue; color: white;" id="Atlanta">Atlanta</button>
+    <button type="button" style="background-color: blue; color: white;" id="Chicago">Chicago</button>
+    <button type="button" style="background-color: blue; color: white;" id="Washington">Washington</button>
+    <button type="button" style="background-color: blue; color: white;" id="Montreal">Montreal</button>
 
     <script>
-        
 
-
-        $.get("/getCities", function (data, status) {
-            console.log(Object.keys(data).length);
-            for (n in data) {
-                console.log(n);
-            }
-            
-        }); 
     </script>
 </body>
