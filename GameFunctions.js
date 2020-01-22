@@ -56,12 +56,17 @@ class City {
 }
 
 class PlayerPawn {
-    constructor(player) {
+    constructor(player, startCity) {
         this.player = player;
+        this.currentCity = startCity;
     }
 
     getPlayer() {
         return this.player;
+    }
+
+    getCurrentCity() {
+        return this.currentCity;
     }
 }
 
