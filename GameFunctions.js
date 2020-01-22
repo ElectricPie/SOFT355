@@ -78,10 +78,12 @@ class DiseaseCityTracker{
 
     increaseCount() {
         this.diseaseCount++;
+        this.diseaseType.increaseCount();
     }
 
     decreaseCount() {
         this.diseaseCount--;
+        this.diseaseType.decreaseCount();
     }
 
     getDiseaseType() {

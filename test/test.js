@@ -197,13 +197,15 @@ suite("Game test suite", function () {
     //Increaseing Count
     testDiseaseCityTracker.increaseCount();
     testDiseaseCityTrackerCount++;
-    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Disease count should match");
-   
+    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Increased disease count should match");
+    assert.equal(testDiseases[0].getCount(), testDiseaseCityTrackerCount, "Inecreased disease type count should match");
+  
     //Decreaseing Count
     testDiseaseCityTracker.decreaseCount();
     testDiseaseCityTrackerCount--;
-    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Disease count should match");
-    
+
+    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Decreased disease count should match");
+    assert.equal(testDiseases[0].getCount(), testDiseaseCityTrackerCount, "Decreased disease type count should match");
   });
 
   test("Creating gameworld", function() { 
