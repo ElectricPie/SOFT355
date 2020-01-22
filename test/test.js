@@ -224,9 +224,10 @@ suite("Game test suite", function () {
 
   
   test("Create player pawn", function() {
-    var testPlayerPawn = new gameFunc.PlayerPawn();
+    var testPlayerPawn = new gameFunc.PlayerPawn(testPlayers[0]);
 
-    assert.notEqual(testPlayerPawn, null, "Player pawn should should not be null");
+    assert.notEqual(testPlayerPawn, null, "Player pawn should not be null");
+    assert.equal(testPlayerPawn.getPlayer(), testPlayers[0], "Pawns player should match");
   });
 
 
