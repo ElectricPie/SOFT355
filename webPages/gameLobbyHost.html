@@ -1,14 +1,17 @@
 <body>
-    <h1 id="lobbyCode">Lobby: [lobby code]</h1>   
-    
-    
-    <button type="button" id="startGame">Start Game</button>
-    <h2>Player List</h2>   
-    <ul id="playerList">
+    <div style="text-align: center;"">
+        <h1 id="lobbyCode">Lobby: [lobby code]</h1>   
+        
+        <button type="button" id="startGame">Start Game</button>
+        <h2>Player List</h2>   
+        <ul style="list-style-type:none;" id="playerList">
 
-    </ul>
+        </ul>
+    </div>
     
     <script>     
+
+
         socket.on('players', function(data) {
             $("#playerList").empty();
 

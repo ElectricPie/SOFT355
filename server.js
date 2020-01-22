@@ -180,7 +180,7 @@ lobbyListSocket.on('connection', function(socket){
     lobby.getHost().connectToGame(newGame);
     //Sets the other players game to be the new game
     for (let i = 0; i < lobby.getPlayers().length; i++) {
-      lobby.getPlayers()[i].getHost().connectToGame(newGame);
+      lobby.getPlayers()[i].connectToGame(newGame);
     }
   });
 
