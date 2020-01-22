@@ -171,7 +171,7 @@ suite("Game test suite", function () {
 
     var testCity = new gameFunc.City(testCityName, testCityConnections, testDiseases);
 
-    //Tests city is create correctly
+    //Tests city is create and stores vairables correctly
     assert.notEqual(testCity, null, "City should should be null");
     assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
     assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
@@ -187,11 +187,21 @@ suite("Game test suite", function () {
   });
 
   test("Creating gameworld", function() { 
-    var testGameWorld = new gameFunc.GameWorld(citiesJson);
+    var testGameWorld = new gameFunc.GameWorld(citiesJson, testDiseases);
    
 
     assert.notEqual(testGameWorld, null, "GameWorld should should be null");
 
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
+
+    var gameWorldDiseasePass = true;
+
+    for (let i = 0; i < testGameWorld.getCities().length; i++) {
+      if (testGameWorld.getCities()[i].getDiseases() != testDiseases) {
+        gameWorldDiseasePass = false;
+      }
+    }
+
+    assert.isTrue(gameWorldDiseasePass, 'Game World cities diseases should match setup diseases');
   });
 });
