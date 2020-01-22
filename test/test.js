@@ -140,6 +140,18 @@ suite("Game test suite", function () {
     gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
   });
 
+  test("Create disease", function() {
+    var testDisease = new gameFunc.Disease("black");
+
+    assert.notEqual(testDisease, null, "Disease should should be null");
+  }); 
+
+  test("Create player pawn", function() {
+    var testPlayerPawn = new gameFunc.PlayerPawn();
+
+    assert.notEqual(testPlayerPawn, null, "Player pawn should should be null");
+  });
+
 
   test("Create City", function() {
     var testCityName = "TestCity"
@@ -152,14 +164,6 @@ suite("Game test suite", function () {
     assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
     assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
   });
-
-  test("Create player pawn", function() {
-    var testPlayerPawn = new gameFunc.PlayerPawn();
-
-    assert.notEqual(testPlayerPawn, null, "Player pawn should should be null");
-  });
-
-
  
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson);

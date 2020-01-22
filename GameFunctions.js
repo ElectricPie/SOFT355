@@ -39,6 +39,13 @@ class PlayerPawn {
     }
 }
 
+class Disease {
+    constructor(name) {
+
+    }
+}
+
 module.exports.GameWorld = GameWorld;
 module.exports.City = City;
 module.exports.PlayerPawn = PlayerPawn;
+module.exports.Disease = Disease;
