@@ -158,20 +158,28 @@ lobbyListSocket.on('connection', function(socket){
 
     var gamePlayers = [];
 
+    //Look for lobby with matching code
     for (let i = 0; i < lobbies.length; i++) {
       if (lobbies[i].getLobbyCode() == msg.lobbyCode) {
-        gamePlayers.push(lobbies[i].getHost());
+        //Add the host to the player list
+        gamePlayers.push(lobbies[i].getHost().getName());
         for (let j = 0; j < lobbies[i].getPlayers().length; j++) {
-          gamePlayers.push(lobbies[i].getPlayers()[j]);
+          gamePlayers.push(lobbies[i].getPlayers()[j].getName());
         }
       }
     }
+    
+    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases, gamePlayers));
+  });
 
-    for (let i = 0; i < gamePlayers.length; i++) {
-      console.log(i + ": " + gamePlayers[i].getName());
-  }
+  socket.on('requestGameUpdate', function (msg) {
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].getGameCode() == msg.gameCode) {
+        var playerPawns = games[i].getPawnLocations();
 
-    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases, gamePlayers))
+        socket.emit('playerPawnUpdate', playerPawns);
+      }
+    }
   });
 });
 

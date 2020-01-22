@@ -1,25 +1,41 @@
+
 class GameWorld {
     constructor(gameCode, citiesJsonFile, diseases, players) {
         this.gameCode = gameCode;
-        this.game
+        this.cities = [];
         this.createCities(citiesJsonFile, diseases);
         this.players = players;
         this.playerPawns = [];
         this.turnTracker = 0;
 
-        for (let i = 0; i < players.length; i++) {
-            this.playerPawns.push(new PlayerPawn(players[i], this.cities[0]));
+        //Create player pawns
+        for (let i = 0; i < this.players.length; i++) {
+            this.playerPawns.push(new PlayerPawn(this.players[0], this.cities[0]));
         }
     }
 
     createCities(jsonFile, diseases) {
-        this.cities = [];
-
         var keys = Object.keys(jsonFile);
 
         for (let i = 0; i < keys.length; i++) {
             this.cities.push(new City(keys[i], jsonFile[keys[i]].connections, diseases));
         }
+    }
+
+    getPawnLocations() {
+        var pawnLocations = [];
+
+        for (let i = 0; i < this.playerPawns.length; i++) {
+            //Checks the pawns currenct city against the array of cities
+            for (let j = 0; j < this.cities.length; j++) {
+                if (this.playerPawns[i].getCurrentCity() == this.cities[j]) {
+                    //If it finds the city it adds the cities index location
+                    pawnLocations.push(j);
+                }
+            }
+        }
+
+        return pawnLocations;
     }
 
     getGameCode() {
@@ -32,6 +48,11 @@ class GameWorld {
 
     getPlayers() {
         return this.players;
+    }
+
+    getPlayerPawns() {
+        console.log(this.playerPawns[0].getPlayer());
+        return this.playerPawns;
     }
 }
 
@@ -62,17 +83,17 @@ class City {
 }
 
 class PlayerPawn {
-    constructor(player, startCity) {
+    constructor(player, startingCity) {
         this.player = player;
-        this.currentCity = startCity;
-    }
+        this.city = startingCity;
+    } 
 
     getPlayer() {
         return this.player;
     }
 
     getCurrentCity() {
-        return this.currentCity;
+        return this.city;
     }
 }
 

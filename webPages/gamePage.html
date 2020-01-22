@@ -7,6 +7,10 @@
     <button type="button" style="background-color: blue; color: white;" id="3">Montreal</button>
 
     <script>
+        socket.emit('requestGameUpdate', {gameCode: localStorage.getItem('lobbyCode')});
 
+        socket.on('playerPawnUpdate', function(data) {
+            console.log("Message Recived: " + data);
+        });
     </script>
 </body>
