@@ -222,9 +222,10 @@ suite("Game test suite", function () {
 
 
   test("Creating gameworld", function() { 
-    var testGameWorld = new gameFunc.GameWorld(citiesJson, testDiseases);
+    var testGameWorld = new gameFunc.GameWorld("TESTCODE", citiesJson, testDiseases);
 
     assert.notEqual(testGameWorld, null, "GameWorld should not be null");
+    assert.equal(testGameWorld.getGameCode(), "TESTCODE", "Game code should match");
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
 
     //Check that all cities in the game would have the correct diseases

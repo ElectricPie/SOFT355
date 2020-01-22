@@ -1,5 +1,7 @@
 class GameWorld {
-    constructor(citiesJsonFile, diseases) {
+    constructor(gameCode, citiesJsonFile, diseases) {
+        this.gameCode = gameCode;
+        this.game
         this.createCities(citiesJsonFile, diseases);
     }
 
@@ -11,6 +13,10 @@ class GameWorld {
         for (let i = 0; i < keys.length; i++) {
             this.cities.push(new City(keys[i], jsonFile[keys[i]].connections, diseases));
         }
+    }
+
+    getGameCode() {
+        return this.gameCode;
     }
 
     getCities() {
