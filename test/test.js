@@ -130,6 +130,7 @@ suite("Lobby test suite", function() {
 
 suite("Game test suite", function () {
   var testPlayer;
+  var testDiseases;
   
   suiteSetup(function() {
     gamePlayerSocket = io.connect('http://localhost:9000', {
@@ -138,6 +139,8 @@ suite("Game test suite", function () {
 
     //Creates the player
     gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
+
+    testDiseases = [new gameFunc.Disease("black"), new gameFunc.Disease("yellow"), new gameFunc.Disease("red"), new gameFunc.Disease("blue")];
   });
 
   test("Diseases", function() {
@@ -162,25 +165,27 @@ suite("Game test suite", function () {
     assert.equal(testDisease.getCount(), testDiseaseCount, "Increased disease count should match " + testDiseaseCount);
   }); 
 
+  test("Cities", function() {
+    var testCityName = "TestCity"
+    var testCityConnections = [3, 2];
+
+    var testCity = new gameFunc.City(testCityName, testCityConnections, testDiseases);
+
+    //Tests city is create correctly
+    assert.notEqual(testCity, null, "City should should be null");
+    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
+    assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
+    assert.equal(testCity.getDiseases(), testDiseases, "City diseases should match setup diseases");
+
+
+  });
+ 
   test("Create player pawn", function() {
     var testPlayerPawn = new gameFunc.PlayerPawn();
 
     assert.notEqual(testPlayerPawn, null, "Player pawn should should be null");
   });
 
-
-  test("Create City", function() {
-    var testCityName = "TestCity"
-    var testCityConnections = [3, 2];
-
-    var testCity = new gameFunc.City(testCityName, testCityConnections);
-
-
-    assert.notEqual(testCity, null, "City should should be null");
-    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
-    assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
-  });
- 
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson);
    

@@ -19,9 +19,10 @@ class GameWorld {
 }
 
 class City {
-    constructor(name, connections) {
+    constructor(name, connections, diseases) {
         this.name = name;
         this.connections = connections;
+        this.diseases = diseases;
     }
 
     getName() {
@@ -30,6 +31,10 @@ class City {
 
     getConnections(){
         return this.connections;
+    }
+
+    getDiseases() {
+        return this.diseases
     }
 }
 
@@ -50,6 +55,7 @@ class Disease {
     }
 
     decreaseCount() {
+        //Prevents the count from going below 0
         if (this.count > 0) {
             this.count--;
         }
