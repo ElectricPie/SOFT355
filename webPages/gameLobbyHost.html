@@ -13,7 +13,6 @@
     
     <script>     
         socket.on('players', function(data) {
-            console.log("Fack");
             $("#playerList").empty();
 
             var playerList = JSON.parse(data.players);
@@ -29,6 +28,7 @@
             //Get lobby code from server
             if (data.type == "code") {
                 lobbyCode = data.lobbyCode
+                localStorage.setItem('lobbyCode', lobbyCode);
                 //Replace lobby code with generated code
                 $("#lobbyCode").html(lobbyCode);
             }

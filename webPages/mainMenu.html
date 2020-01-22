@@ -18,14 +18,8 @@
             $(document).ready(function() {
                 $("#joinBtn").click(function() {
                     if ($("#username").val().length >= 4) {
-                        $.get("/joinPage", function(data, status) {
-                            //Registers the user with the server
-                            socket.emit('register user', {name: $("#username").val()});
-                            //Request to join lobby search room
-                            socket.emit('join room', {room: "lobbySearch"});
-                            $("body").html(data);
-                            $("#MenuBtnControl").remove();
-                        });
+                        //Attempt to register username
+                        socket.emit('register user', {name: $("#username").val(), room: "join"});
                     }
                     else {
                         alert("Username must contain atlest 4 characters")
@@ -34,20 +28,37 @@
         
                 $("#hostLobbyBtn").click(function() {
                     if ($("#username").val().length >= 4) {
-                        $.get("/hostLobby", function(data, status) {
-                            //Registers the user with the server
-                            socket.emit('register user', {name: $("#username").val()});
-                            //Sends a new lobby request
-                            socket.emit('join room', {room: "newLobby"});
-
-                            $("body").html(data);
-                            $("#MenuBtnControl").remove();
-                        });  
+                        //Attempt to register username
+                        socket.emit('register user', {name: $("#username").val(), room: "newLobby"});
                     }
                     else {
                         alert("Username must contain atlest 4 characters")
                     }
                 });
+            });
+
+            socket.on('approvedUserName', function(msg) {
+                if (msg.room == "join") {
+                    $.get("/joinPage", function(data, status) {
+                        //Request to join lobby search room
+                        socket.emit('join room', {room: "lobbySearch"});
+                        $("body").html(data);
+                        $("#MenuBtnControl").remove();
+                    });
+                }
+                else if (msg.room == "newLobby") {
+                    $.get("/hostLobby", function(data, status) {
+                        //Sends a new lobby request
+                        socket.emit('join room', {room: "newLobby"});
+
+                        $("body").html(data);
+                        $("#MenuBtnControl").remove();
+                    });  
+                }
+            });
+
+            socket.on('rejectedUserName', function(msg) {
+                alert("Username already in use");
             });
         </script>   
     </head>

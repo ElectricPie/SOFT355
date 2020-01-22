@@ -81,9 +81,25 @@ lobbyListSocket.on('connection', function(socket){
   });
 
   socket.on('register user', function (msg) { 
-    var newPlayer = new lobbyFunc.Player(msg.name, socket);
+    var invalidName = false;
 
-    players.push(newPlayer);   
+    for (let i = 0; i < players.length; i++) {
+      if (msg.name == players[i].getName()) {
+        console.log("Duplicate found");
+        invalidName = true;
+      }
+    }
+
+    if (invalidName) {
+      socket.emit('rejectedUserName', null);
+    } 
+    else {
+      var newPlayer = new lobbyFunc.Player(msg.name, socket);
+
+      players.push(newPlayer);   
+
+      socket.emit('approvedUserName', { room: msg.room });
+    }
   });
 
   socket.on('join room', function (msg) { 
