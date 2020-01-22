@@ -176,10 +176,15 @@ lobbyListSocket.on('connection', function(socket){
     for (let i = 0; i < games.length; i++) {
       if (games[i].getGameCode() == msg.gameCode) {
         var playerPawns = games[i].getPawnLocations();
+        var currentPlayer = games[i].getCurrentPlayer();
+        var currentPlayerActions = games[i].getCurrentPlayerActions();
 
         socket.emit('playerPawnUpdate', playerPawns);
+        socket.emit('currentPlayerUpdate', {currentPlayer: currentPlayer, actionsRemaning: currentPlayerActions });
       }
     }
+
+
   });
 });
 

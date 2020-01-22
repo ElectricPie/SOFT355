@@ -16,6 +16,12 @@
         </tr>
     </table>
 
+    <div>
+        <h3 id="currentPlayer">Current Player: </h3>
+        <h4 id="actionsRemaning"></h4>
+
+    </div>
+
     <script>
         socket.emit('requestGameUpdate', {gameCode: localStorage.getItem('lobbyCode')});
 
@@ -31,5 +37,12 @@
                 $("#pawnSpace" + data[i]).append(i + "|");
             }
         });
+
+        socket.on('currentPlayerUpdate', function(data) {
+            $("#currentPlayer").html("Current Player: " + data.currentPlayer);
+            $("#actionsRemaning").html("Actions Remaning: " + data.actionsRemaning);
+        });
+
+        
     </script>
 </body>

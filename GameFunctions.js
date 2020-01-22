@@ -5,8 +5,9 @@ class GameWorld {
         this.cities = [];
         this.createCities(citiesJsonFile, diseases);
         this.players = players;
+        this.playerRemaningActions = [4, 0, 0, 0];
         this.playerPawns = [];
-        this.turnTracker = 0;
+        this.currentPlayerTracker = 0;
 
         //Create player pawns
         for (let i = 0; i < this.players.length; i++) {
@@ -20,6 +21,14 @@ class GameWorld {
         for (let i = 0; i < keys.length; i++) {
             this.cities.push(new City(keys[i], jsonFile[keys[i]].connections, diseases));
         }
+    }
+
+    getCurrentPlayerActions(){
+        return this.playerRemaningActions[this.currentPlayerTracker];
+    }
+
+    getCurrentPlayer() {
+        return this.players[this.currentPlayerTracker];
     }
 
     getPawnLocations() {
