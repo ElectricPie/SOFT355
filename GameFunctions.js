@@ -22,7 +22,13 @@ class City {
     constructor(name, connections, diseases) {
         this.name = name;
         this.connections = connections;
-        this.diseases = diseases;
+        //Create disease trackers for each disease
+        this.diseaseTrackers = [
+            new DiseaseCityTracker(diseases[0]),
+            new DiseaseCityTracker(diseases[1]), 
+            new DiseaseCityTracker(diseases[2]), 
+            new DiseaseCityTracker(diseases[3])  
+        ];
     }
 
     getName() {
@@ -33,8 +39,8 @@ class City {
         return this.connections;
     }
 
-    getDiseases() {
-        return this.diseases
+    getDiseaseTrackers() {
+        return this.diseaseTrackers;
     }
 }
 

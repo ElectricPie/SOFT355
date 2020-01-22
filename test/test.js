@@ -165,26 +165,6 @@ suite("Game test suite", function () {
     assert.equal(testDisease.getCount(), testDiseaseCount, "Increased disease count should match " + testDiseaseCount);
   }); 
 
-  test("Cities", function() {
-    var testCityName = "TestCity"
-    var testCityConnections = [3, 2];
-
-    var testCity = new gameFunc.City(testCityName, testCityConnections, testDiseases);
-
-    //Tests city is create and stores vairables correctly
-    assert.notEqual(testCity, null, "City should be not null");
-    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
-    assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
-    assert.equal(testCity.getDiseases(), testDiseases, "City diseases should match setup diseases");
-
-
-  });
- 
-  test("Create player pawn", function() {
-    var testPlayerPawn = new gameFunc.PlayerPawn();
-
-    assert.notEqual(testPlayerPawn, null, "Player pawn should should not be null");
-  });
 
   test("Disease City Trackers", function() {
     var testDiseaseCityTracker = new gameFunc.DiseaseCityTracker(testDiseases[0]);
@@ -208,9 +188,41 @@ suite("Game test suite", function () {
     assert.equal(testDiseases[0].getCount(), testDiseaseCityTrackerCount, "Decreased disease type count should match");
   });
 
+
+  test("Cities", function() {
+    var testCityName = "TestCity"
+    var testCityConnections = [3, 2];
+
+    var testDiseaseCityTracker = new gameFunc.DiseaseCityTracker(testDiseases[0]);
+
+    var testCity = new gameFunc.City(testCityName, testCityConnections, testDiseases);
+
+    //Tests city is create and stores vairables correctly
+    assert.notEqual(testCity, null, "City should be not null");
+    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
+    assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
+
+    var cityDiseasePass = true;
+
+    for (let i = 0; i < testCity.getDiseaseTrackers().length; i++) {
+      if (testCity.getDiseaseTrackers()[i].getDiseaseType().getName() != testDiseases[i].getName()) {
+        cityDiseasePass = false;
+      }
+    }
+
+    assert.isTrue(cityDiseasePass, "City diseases should match setup diseases");
+  });
+
+  
+  test("Create player pawn", function() {
+    var testPlayerPawn = new gameFunc.PlayerPawn();
+
+    assert.notEqual(testPlayerPawn, null, "Player pawn should should not be null");
+  });
+
+
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson, testDiseases);
-   
 
     assert.notEqual(testGameWorld, null, "GameWorld should not be null");
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
@@ -218,8 +230,10 @@ suite("Game test suite", function () {
     //Check that all cities in the game would have the correct diseases
     var gameWorldDiseasePass = true;
     for (let i = 0; i < testGameWorld.getCities().length; i++) {
-      if (testGameWorld.getCities()[i].getDiseases() != testDiseases) {
-        gameWorldDiseasePass = false;
+      for (let j = 0; j < testGameWorld.getCities()[i].getDiseaseTrackers().length; j++) {
+        if (testGameWorld.getCities()[i].getDiseaseTrackers()[j].getDiseaseType() != testDiseases[j]) {
+          gameWorldDiseasePass = false;
+        }
       }
     }
 
