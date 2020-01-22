@@ -148,7 +148,7 @@ suite("Game test suite", function () {
 
     var testDisease = new gameFunc.Disease(testDiseaseName);
 
-    assert.notEqual(testDisease, null, "Disease should should be null");
+    assert.notEqual(testDisease, null, "Disease should not be null");
     assert.equal(testDisease.getName(), testDiseaseName, "Disease name should match " + testDiseaseName);
     
     var testDiseaseCount = 0;
@@ -172,7 +172,7 @@ suite("Game test suite", function () {
     var testCity = new gameFunc.City(testCityName, testCityConnections, testDiseases);
 
     //Tests city is create and stores vairables correctly
-    assert.notEqual(testCity, null, "City should should be null");
+    assert.notEqual(testCity, null, "City should be not null");
     assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
     assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
     assert.equal(testCity.getDiseases(), testDiseases, "City diseases should match setup diseases");
@@ -183,19 +183,26 @@ suite("Game test suite", function () {
   test("Create player pawn", function() {
     var testPlayerPawn = new gameFunc.PlayerPawn();
 
-    assert.notEqual(testPlayerPawn, null, "Player pawn should should be null");
+    assert.notEqual(testPlayerPawn, null, "Player pawn should should not be null");
+  });
+
+  test("Disease City Trackers", function() {
+    var testDiseaseCityTracker = new gameFunc.DiseaseCityTracker(testDiseases[0]);
+
+    assert.notEqual(testDiseaseCityTracker, null, "Disease City Trackers should not be null");
+
+    assert.equal(testDiseaseCityTracker.getDiseaseType(), testDiseases[0], "Disease Type should match with setup a disease");
   });
 
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson, testDiseases);
    
 
-    assert.notEqual(testGameWorld, null, "GameWorld should should be null");
-
+    assert.notEqual(testGameWorld, null, "GameWorld should not be null");
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
 
+    //Check that all cities in the game would have the correct diseases
     var gameWorldDiseasePass = true;
-
     for (let i = 0; i < testGameWorld.getCities().length; i++) {
       if (testGameWorld.getCities()[i].getDiseases() != testDiseases) {
         gameWorldDiseasePass = false;

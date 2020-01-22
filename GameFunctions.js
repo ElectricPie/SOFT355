@@ -70,7 +70,18 @@ class Disease {
     }
 }
 
+class DiseaseCityTracker{ 
+    constructor(disease) {
+        this.diseaseType = disease;
+    }
+
+    getDiseaseType() {
+        return this.diseaseType;
+    }
+}
+
 module.exports.GameWorld = GameWorld;
 module.exports.City = City;
 module.exports.PlayerPawn = PlayerPawn;
 module.exports.Disease = Disease;
+module.exports.DiseaseCityTracker = DiseaseCityTracker;
