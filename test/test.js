@@ -190,8 +190,20 @@ suite("Game test suite", function () {
     var testDiseaseCityTracker = new gameFunc.DiseaseCityTracker(testDiseases[0]);
 
     assert.notEqual(testDiseaseCityTracker, null, "Disease City Trackers should not be null");
-
     assert.equal(testDiseaseCityTracker.getDiseaseType(), testDiseases[0], "Disease Type should match with setup a disease");
+  
+    var testDiseaseCityTrackerCount = 0;
+    
+    //Increaseing Count
+    testDiseaseCityTracker.increaseCount();
+    testDiseaseCityTrackerCount++;
+    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Disease count should match");
+   
+    //Decreaseing Count
+    testDiseaseCityTracker.decreaseCount();
+    testDiseaseCityTrackerCount--;
+    assert.equal(testDiseaseCityTracker.getDiseaseCount(), testDiseaseCityTrackerCount, "Disease count should match");
+    
   });
 
   test("Creating gameworld", function() { 

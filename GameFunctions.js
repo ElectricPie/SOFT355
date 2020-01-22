@@ -73,10 +73,23 @@ class Disease {
 class DiseaseCityTracker{ 
     constructor(disease) {
         this.diseaseType = disease;
+        this.diseaseCount = 0;
+    }
+
+    increaseCount() {
+        this.diseaseCount++;
+    }
+
+    decreaseCount() {
+        this.diseaseCount--;
     }
 
     getDiseaseType() {
         return this.diseaseType;
+    }
+
+    getDiseaseCount() {
+        return this.diseaseCount;
     }
 }
 
