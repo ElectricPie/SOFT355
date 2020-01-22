@@ -23,6 +23,20 @@ class City {
         this.name = name;
         this.connections = connections;
     }
+
+    getName() {
+        return this.name;
+    }
+
+    getConnections(){
+        return this.connections;
+    }
+}
+
+class PlayerPawn {
+    constructor() {
+
+    }
 }
 
 function createCity() {

@@ -129,6 +129,18 @@ suite("Lobby test suite", function() {
 });
 
 suite("Game test suite", function () {
+  test("Create City", function() {
+    var testCityName = "TestCity"
+    var testCityConnections = [3, 2];
+
+    var testCity = new gameFunc.City(testCityName, testCityConnections);
+
+    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
+
+    assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
+  });
+
+ 
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson);
    
