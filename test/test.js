@@ -2,6 +2,9 @@ var assert = require("chai").assert;
 var io = require('socket.io-client');
 
 var lobbyFunc = require("../Lobby");
+var gameFunc = require("../GameFunctions");
+
+var citiesJson = require('../json/cities');
 
 suite("Lobby test suite", function() {
   suiteSetup(function() {
@@ -122,5 +125,16 @@ suite("Lobby test suite", function() {
     assert.equal(sharedLobby.getPlayers().length, sharedLobbyCount, "Number of players should match the number of players before adding and leaving the new player");
 
     assert.equal(leaverPlayer.getConnectedLobby(), null, "Players lobby should be null");
+  });
+});
+
+suite("Game test suite", function () {
+  test("Creating gameworld", function() { 
+    var testGameWorld = new gameFunc.GameWorld(citiesJson);
+   
+
+    assert.notEqual(testGameWorld, null, "Gameworld should should be null");
+
+    assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
   });
 });
