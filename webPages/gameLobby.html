@@ -1,9 +1,5 @@
 <body>
-    <div style="clear: both" style="text-align: center">
-        <h1 style="float: left">Lobby:</h1>
-        <h1 style="float: left" id="lobbyCode">[lobby code]</h1>
-    </div>
-    
+    <h1 id="lobbyCode">Lobby: [lobby code]</h1>   
     
     <h2>Player List</h2>   
     <ul id="playerList">
@@ -14,7 +10,7 @@
         var lobbyCode = localStorage.getItem('lobbyCode') ;
 
         if(lobbyCode != null) {
-            $("#lobbyCode").html(lobbyCode);
+            $("#lobbyCode").html('Lobby: ' + lobbyCode);
             //Gets the server to send player list
             socket.emit('request update', { lobbyCode: lobbyCode });
         }
