@@ -140,7 +140,22 @@ lobbyListSocket.on('connection', function(socket){
     //Sends a message that the game will start
     lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', "starting game");
 
-    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases))
+    var gamePlayers = [];
+
+    for (let i = 0; i < lobbies.length; i++) {
+      if (lobbies[i].getLobbyCode() == msg.lobbyCode) {
+        gamePlayers.push(lobbies[i].getHost());
+        for (let j = 0; j < lobbies[i].getPlayers().length; j++) {
+          gamePlayers.push(lobbies[i].getPlayers()[j]);
+        }
+      }
+    }
+
+    for (let i = 0; i < gamePlayers.length; i++) {
+      console.log(i + ": " + gamePlayers[i].getName());
+  }
+
+    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases, gamePlayers))
   });
 });
 
