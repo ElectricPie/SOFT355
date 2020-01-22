@@ -1,16 +1,35 @@
 <body>
     <h1>Game Page</h1>
 
-    <button type="button" style="background-color: blue; color: white;" id="0">Atlanta</button>
-    <button type="button" style="background-color: blue; color: white;" id="1">Chicago</button>
-    <button type="button" style="background-color: blue; color: white;" id="2">Washington</button>
-    <button type="button" style="background-color: blue; color: white;" id="3">Montreal</button>
+    <table style="width: 100%; border: 1px solid black;">
+        <tr>
+            <td><button type="button" style="background-color: blue; color: white;" id="btn0">Atlanta</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" id="btn1">Chicago</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" id="btn2">Washington</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" id="btn3">Montreal</button></td>
+        </tr>
+        <tr>
+            <td id="pawnSpace0">n/a</td>
+            <td id="pawnSpace1">n/a</td>
+            <td id="pawnSpace2">n/a</td>
+            <td id="pawnSpace3">n/a</td>
+        </tr>
+    </table>
 
     <script>
         socket.emit('requestGameUpdate', {gameCode: localStorage.getItem('lobbyCode')});
 
         socket.on('playerPawnUpdate', function(data) {
+            for (let i = 0; i < 4; i++) {
+                $("#pawnSpace" + data[i]).empty();
+            }
+
             console.log("Message Recived: " + data);
+            for (let i = 0; i < data.length; i++) {
+                
+
+                $("#pawnSpace" + data[i]).append(i + "|");
+            }
         });
     </script>
 </body>
