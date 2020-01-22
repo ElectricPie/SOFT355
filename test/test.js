@@ -140,14 +140,26 @@ suite("Game test suite", function () {
     gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
   });
 
-  test("Create disease", function() {
+  test("Diseases", function() {
     var testDiseaseName = "black";
 
     var testDisease = new gameFunc.Disease(testDiseaseName);
 
     assert.notEqual(testDisease, null, "Disease should should be null");
-
     assert.equal(testDisease.getName(), testDiseaseName, "Disease name should match " + testDiseaseName);
+    
+    var testDiseaseCount = 0;
+    assert.equal(testDisease.getCount(), testDiseaseCount, "Disease count should match " + testDiseaseCount);
+
+    //Test for increaseing disease count
+    testDisease.increaseCount();
+    testDiseaseCount++;
+    assert.equal(testDisease.getCount(), testDiseaseCount, "Increased disease count should match " + testDiseaseCount);
+
+    //Test for decreaseing disease count
+    testDisease.decreaseCount();
+    testDiseaseCount--;
+    assert.equal(testDisease.getCount(), testDiseaseCount, "Increased disease count should match " + testDiseaseCount);
   }); 
 
   test("Create player pawn", function() {

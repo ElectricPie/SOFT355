@@ -35,17 +35,32 @@ class City {
 
 class PlayerPawn {
     constructor() {
-
+        
     }
 }
 
 class Disease {
     constructor(name) {
         this.name = name;
+        this.count = 0;
+    }
+
+    increaseCount() {
+        this.count++;
+    }
+
+    decreaseCount() {
+        if (this.count > 0) {
+            this.count--;
+        }
     }
 
     getName() {
         return this.name;
+    }
+
+    getCount() {
+        return this.count;
     }
 }
 
