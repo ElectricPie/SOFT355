@@ -9,10 +9,15 @@ var path = require('path');
 
 //Custom packages
 var lobbyFunc = require('./Lobby');
+var gameFunc = require('./GameFunctions');
+
+var citiesJson = require('./json/cities');
+var gameDiseases = [new gameFunc.Disease("black"), new gameFunc.Disease("yellow"), new gameFunc.Disease("red"), new gameFunc.Disease("blue")];
 
 var port = 9000;
 var lobbies = [];
 var players = [];
+var games = [];
 
 //Lobby socket
 const lobbyListSocket = io.of('/lobbies');
@@ -23,7 +28,6 @@ const lobbyListSocket = io.of('/lobbies');
 app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname + '/webPages/mainMenu.html'));
 });
-
 
 app.get('/joinPage', function(request, response) {
   response.sendFile(path.join(__dirname + '/webPages/joinGame.html'));
@@ -136,6 +140,7 @@ lobbyListSocket.on('connection', function(socket){
     //Sends a message that the game will start
     lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', "starting game");
 
+    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases))
   });
 });
 
