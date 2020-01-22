@@ -129,23 +129,43 @@ suite("Lobby test suite", function() {
 });
 
 suite("Game test suite", function () {
+  var testPlayer;
+  
+  suiteSetup(function() {
+    gamePlayerSocket = io.connect('http://localhost:9000', {
+      'reconnection delay' : 0, 'reopen delay' : 0, 'force new connection' : true
+    });
+
+    //Creates the player
+    gamePlayer = new lobbyFunc.Player("John", gamePlayerSocket);
+  });
+
+
   test("Create City", function() {
     var testCityName = "TestCity"
     var testCityConnections = [3, 2];
 
     var testCity = new gameFunc.City(testCityName, testCityConnections);
 
-    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
 
+    assert.notEqual(testCity, null, "City should should be null");
+    assert.equal(testCity.getName(), testCityName, "City name should match " + testCityName);
     assert.equal(testCity.getConnections(), testCityConnections, "City name should match " + testCityConnections);
   });
+
+  test("Create player pawn", function() {
+    var testPlayerPawn = new gameFunc.PlayerPawn();
+
+    assert.notEqual(testPlayerPawn, null, "Player pawn should should be null");
+  });
+
 
  
   test("Creating gameworld", function() { 
     var testGameWorld = new gameFunc.GameWorld(citiesJson);
    
 
-    assert.notEqual(testGameWorld, null, "Gameworld should should be null");
+    assert.notEqual(testGameWorld, null, "GameWorld should should be null");
 
     assert.equal(testGameWorld.getCities().length, Object.keys(citiesJson).length, "Number of cities should be " + Object.keys(citiesJson).length);
   });

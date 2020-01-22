@@ -39,8 +39,6 @@ class PlayerPawn {
     }
 }
 
-function createCity() {
-
-}
 module.exports.GameWorld = GameWorld;
 module.exports.City = City;
+module.exports.PlayerPawn = PlayerPawn;
