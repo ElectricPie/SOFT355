@@ -28,9 +28,13 @@ suite("Lobby test suite", function() {
     var player = new lobbyFunc.Player("Bob", socket);
 
     //Checks player name are the same
-    assert.equal("Bob", player.getName(), "Wrong Name Returned");
+    assert.equal("Bob", player.getName(), "Names should match");
     //Checks sockets are the same
-    assert.equal(socket, player.getSocket(), "Wrong Name Returned");
+    assert.equal(socket, player.getSocket(), "Sockets should match");
+    
+    assert.equal(player.getAvailableActions(), 4, "Number of actions should  Name Returned");
+    player.useAction("");
+    assert.equal(player.getAvailableActions(), 3, "Number of actions should  Name Returned");
   }); 
 
   test("Test Lobby Creation", function() {

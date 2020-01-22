@@ -1,17 +1,21 @@
 {
   "Atlanta": {
+    "diseaseType": 4,
     "connections": [1, 2]
   },
   
   "Chicago": {
+    "diseaseType": 4,
     "connections": [0, 3]
   },
   
   "Washington": {
+    "diseaseType": 4,
     "connections": [0, 3]
   },
   
   "Montreal": {
+    "diseaseType": 4,
     "connections": [1, 2]
   }
 }

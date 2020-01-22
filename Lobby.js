@@ -18,18 +18,6 @@ class Lobby {
         }
     }
 
-    getHost() {
-        return this.host;
-    }
-
-    getPlayers() {
-        return this.players;
-    }
-
-    getLobbyCode() {
-        return this.lobbyCode;
-    }
-
     generateNewLobbyCode() {
         this.lobbyCode = this.generateLobbyCode();
     }
@@ -53,13 +41,46 @@ class Lobby {
         
         return genCode;
     }
+
+
+    getHost() {
+        return this.host;
+    }
+
+    getPlayers() {
+        return this.players;
+    }
+
+    getLobbyCode() {
+        return this.lobbyCode;
+    }
+
 }
 
 class Player {
     constructor(playerName, socket) {
         this.playerName = playerName;
         this.socket = socket;
+        this.availableActions = 4;
     }
+
+    connectToLobby(lobby) {
+        this.lobby = lobby;
+    }
+
+    disconnectFromLobby() {
+        if (this.lobby != null) {
+            this.lobby.removePlayer(this);
+            this.lobby = null;
+        }
+    }
+
+    useAction(action) {
+        if (this.availableActions > 0) {
+            this.availableActions--;
+        }
+    }
+
 
     getName() {
         return this.playerName;
@@ -69,19 +90,12 @@ class Player {
         return this.socket;
     }
 
-    connectToLobby(lobby) {
-        this.lobby = lobby;
-    }
-
     getConnectedLobby() {
         return this.lobby;
     }
 
-    disconnectFromLobby() {
-        if (this.lobby != null) {
-            this.lobby.removePlayer(this);
-            this.lobby = null;
-        }
+    getAvailableActions() {
+        return this.availableActions;
     }
 }
 
