@@ -3,10 +3,10 @@
 
     <table style="width: 100%; border: 1px solid black;">
         <tr>
-            <td><button type="button" style="background-color: blue; color: white;" id="btn0">Atlanta</button></td>
-            <td><button type="button" style="background-color: blue; color: white;" id="btn1">Chicago</button></td>
-            <td><button type="button" style="background-color: blue; color: white;" id="btn2">Washington</button></td>
-            <td><button type="button" style="background-color: blue; color: white;" id="btn3">Montreal</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" class="cityBtn" id="btn0">Atlanta</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" class="cityBtn" id="btn1">Chicago</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" class="cityBtn" id="btn2">Washington</button></td>
+            <td><button type="button" style="background-color: blue; color: white;" class="cityBtn" id="btn3">Montreal</button></td>
         </tr>
         <tr>
             <td id="pawnSpace0">n/a</td>
@@ -17,12 +17,16 @@
     </table>
 
     <div>
-        <h3 id="currentPlayer">Current Player: </h3>
-        <h4 id="actionsRemaning"></h4>
+        <h2 id="currentPlayer">Current Player: </h2>
+        <h3 id="actionsRemaning"></h3>
 
+        <h4>Actions</h4>
+        <button type="button" id="moveBtn">Move</button>
     </div>
 
     <script>
+        console.log("Button Count: " + $(".cityBtn").length);
+
         socket.emit('requestGameUpdate', {gameCode: localStorage.getItem('lobbyCode')});
 
         socket.on('playerPawnUpdate', function(data) {
@@ -43,6 +47,24 @@
             $("#actionsRemaning").html("Actions Remaning: " + data.actionsRemaning);
         });
 
-        
+        socket.on('allowedMoves', function(data) {
+            console.log("Allowed Moves: " + data);
+            for (let i = 0; i < $(".cityBtn").length; i++) {
+                $("#btn" + i).attr("disabled", true);
+                $("#btn" + i).css("background-color", "black");
+                for(let j = 0; j < data.length; j++) {
+                    if (("btn" + data[j]) == $(".cityBtn")[i].id) {
+                        $("#btn" + i).attr("disabled", false);
+                        $("#btn" + i).css("background-color", "blue");
+                    }
+                }
+                //console.log("Button CO$("#btnSubmit").attr("disabled", true);unt: " + $("button").length);
+             
+            }
+        });
+
+        $("#moveBtn").on("click", function() {
+            socket.emit('requestAction', "move");
+        });
     </script>
 </body>

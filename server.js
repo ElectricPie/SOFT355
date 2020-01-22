@@ -157,19 +157,32 @@ lobbyListSocket.on('connection', function(socket){
     lobbyListSocket.to('lobby' + msg.lobbyCode).emit('startGame', "starting game");
 
     var gamePlayers = [];
+    var lobby;
 
     //Look for lobby with matching code
     for (let i = 0; i < lobbies.length; i++) {
       if (lobbies[i].getLobbyCode() == msg.lobbyCode) {
-        //Add the host to the player list
-        gamePlayers.push(lobbies[i].getHost().getName());
-        for (let j = 0; j < lobbies[i].getPlayers().length; j++) {
-          gamePlayers.push(lobbies[i].getPlayers()[j].getName());
-        }
+        lobby = lobbies[i];
       }
     }
+
+    //Add the host to the player list
+    gamePlayers.push(lobby.getHost().getName());
+    //Adds other players to the list
+    for (let j = 0; j < lobby.getPlayers().length; j++) {
+      gamePlayers.push(lobby.getPlayers()[j].getName());
+    }
     
-    games.push(new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases, gamePlayers));
+    //Create the new game
+    var newGame = new gameFunc.GameWorld(msg.lobbyCode, citiesJson, gameDiseases, gamePlayers)
+    games.push(newGame);
+
+    //Sets the host game to be the new game
+    lobby.getHost().connectToGame(newGame);
+    //Sets the other players game to be the new game
+    for (let i = 0; i < lobby.getPlayers().length; i++) {
+      lobby.getPlayers()[i].getHost().connectToGame(newGame);
+    }
   });
 
   socket.on('requestGameUpdate', function (msg) {
@@ -183,8 +196,20 @@ lobbyListSocket.on('connection', function(socket){
         socket.emit('currentPlayerUpdate', {currentPlayer: currentPlayer, actionsRemaning: currentPlayerActions });
       }
     }
+  });
+
+  socket.on('requestAction', function(msg) {
+    if (msg == "move") {
+      console.log("Request Rec");
+      //Find player
+      for (let i = 0; i < players.length; i++) {
+        if (players[i].getSocket() == socket) {
+          socket.emit('allowedMoves', players[i].getConnectedGame().getPosibleMoves(players[i].getName()));
+        }
+      }
 
 
+    }
   });
 });
 

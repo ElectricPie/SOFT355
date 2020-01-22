@@ -15,6 +15,15 @@ class GameWorld {
         }
     }
 
+    getPosibleMoves(player) {
+        for (let i = 0; this.players.length; i++) {
+            if (player == this.players[i] && this.playerRemaningActions[i] > 0) {
+                //Return posible moves
+                return this.playerPawns[i].getCurrentCity().getConnections();
+            }
+        }
+    }
+
     createCities(jsonFile, diseases) {
         var keys = Object.keys(jsonFile);
 

@@ -75,6 +75,17 @@ class Player {
         }
     }
 
+    connectToGame(game) {
+        this.game = game;
+    }
+
+    disconnectFromGame() {
+        if (this.game != null) {
+            this.game.removePlayer(this);
+            this.game = null;
+        }
+    }
+
     useAction(action) {
         if (this.availableActions > 0) {
             this.availableActions--;
@@ -92,6 +103,10 @@ class Player {
 
     getConnectedLobby() {
         return this.lobby;
+    }
+
+    getConnectedGame() {
+        return this.game;
     }
 
     getAvailableActions() {
